@@ -2,10 +2,10 @@ import os
 
 import pytest
 
-from arc2zen_bridge.engine import inventory, migrate, restore
-from arc2zen_bridge.io import read_json
-from arc2zen_bridge.models import BridgeError, Options
-from arc2zen_bridge.paths import safe_runtime_location
+from arc_to_zen.engine import inventory, migrate, restore
+from arc_to_zen.io import read_json
+from arc_to_zen.models import BridgeError, Options
+from arc_to_zen.paths import safe_runtime_location
 
 
 def test_new_profile_preserves_sources_and_original_target(browsers):
@@ -51,7 +51,7 @@ def test_failed_commit_rolls_target_back(browsers, monkeypatch):
             raise OSError("simulated commit failure")
         return original(source, destination)
 
-    monkeypatch.setattr("arc2zen_bridge.engine.os.replace", fail_staging)
+    monkeypatch.setattr("arc_to_zen.engine.os.replace", fail_staging)
     with pytest.raises(BridgeError):
         migrate(arc, zen, runtime, Options(replace=True))
     assert inventory(zen) == before
@@ -65,7 +65,7 @@ def test_verification_failure_never_commits(browsers, monkeypatch):
     def fail(*_):
         raise BridgeError("simulated verification failure")
 
-    monkeypatch.setattr("arc2zen_bridge.engine.verify_sidebar", fail)
+    monkeypatch.setattr("arc_to_zen.engine.verify_sidebar", fail)
     with pytest.raises(BridgeError, match="verification"):
         migrate(arc, zen, runtime)
     assert inventory(zen) == before
@@ -105,7 +105,7 @@ def test_browsers_running_blocks_before_backups(browsers, monkeypatch):
     def running():
         raise BridgeError("Quit Arc and Zen")
 
-    monkeypatch.setattr("arc2zen_bridge.engine.ensure_closed", running)
+    monkeypatch.setattr("arc_to_zen.engine.ensure_closed", running)
     with pytest.raises(BridgeError, match="Quit"):
         migrate(arc, zen, runtime)
     assert not runtime.exists()

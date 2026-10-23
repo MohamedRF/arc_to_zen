@@ -2,8 +2,8 @@
 
 The app targets macOS 14+ and the modern Arc macOS sidebar / Zen dual-session
 layout. It checks file structure rather than assuming every future browser
-version is compatible. It has an explicit synthetic test suite; this developer
-preview is not claimed to have been tested against every real profile or version.
+version is compatible. Automated coverage uses generated fixtures; compatibility with every real
+profile or future browser version is not guaranteed.
 
 ## Input requirements
 
@@ -11,7 +11,7 @@ preview is not claimed to have been tested against every real profile or version
   `User Data/<profile>/...`.
 - Zen profile containing `zen-sessions.jsonlz4` with spaces/tabs/folders/groups
   arrays, and `sessionstore.jsonlz4` with a saved normal window.
-- Both browsers completely quit for any write or recovery operation. Bridge does
+- Both browsers completely quit for any write or recovery operation. arc_to_zen does
   not terminate processes or discard an active browser session.
 - Enough free space for full Arc and Zen backups, staging, and the result.
 

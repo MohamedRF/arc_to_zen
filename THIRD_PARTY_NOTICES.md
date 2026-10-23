@@ -1,6 +1,6 @@
 # Third-party components
 
-Arc2Zen Bridge's own code is MIT licensed. The packaged app dynamically links
+arc_to_zen's own code is MIT licensed. The packaged app dynamically links
 these independently licensed components; their distribution metadata and license
 files are included by the build script.
 

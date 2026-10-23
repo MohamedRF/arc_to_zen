@@ -28,7 +28,7 @@ names. Source databases are never opened for writing.
 
 Keychain access is requested only after opting into cookies or explicitly
 preparing a password CSV. Enter any required macOS authentication directly in
-macOS's prompt. Bridge never asks you to type a Mac password into the app.
+macOS's prompt. arc_to_zen never asks you to type a Mac password into the app.
 Credential values do not enter progress logs or exception messages.
 
 The temporary CSV is plaintext by necessity for native Zen import. Delete it after

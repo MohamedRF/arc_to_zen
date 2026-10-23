@@ -3,8 +3,8 @@ requires = ["setuptools>=75"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "arc2zen-bridge"
-version = "0.1.0"
+name = "arc_to_zen"
+version = "0.2.0"
 description = "A local-first macOS bridge from Arc spaces to verified Zen profiles."
 requires-python = ">=3.11"
 license = "MIT"
@@ -14,8 +14,14 @@ dependencies = ["lz4>=4.4,<5", "cryptography>=45,<51", "PySide6-Essentials>=6.12
 dev = ["pytest>=8,<10", "ruff>=0.9,<1", "pyinstaller>=6.12,<7"]
 
 [project.scripts]
-arc2zen-bridge = "arc2zen_bridge.cli:main"
-arc2zen-bridge-app = "arc2zen_bridge.gui:main"
+arc_to_zen = "arc_to_zen.cli:main"
+arc_to_zen-app = "arc_to_zen.gui:main"
+# Compatibility aliases for existing installations and scripts.
+arc2zen-bridge = "arc_to_zen.cli:main"
+arc2zen-bridge-app = "arc_to_zen.gui:main"
+
+[tool.setuptools.package-data]
+arc_to_zen = ["assets/*.svg"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,7 +1,7 @@
 import sqlite3
 
-from arc2zen_bridge.models import Options
-from arc2zen_bridge.standard import CHROME_EPOCH, import_forms, import_places, url_hash
+from arc_to_zen.models import Options
+from arc_to_zen.standard import CHROME_EPOCH, import_forms, import_places, url_hash
 
 
 def test_history_dedup_bookmark_hierarchy_and_forms(demo_paths):
@@ -33,7 +33,7 @@ def test_new_history_imports_even_when_sidebar_unchanged(demo_paths):
 def test_unknown_target_hash_is_rejected_without_modification(demo_paths):
     import pytest
 
-    from arc2zen_bridge.models import BridgeError
+    from arc_to_zen.models import BridgeError
 
     arc, zen = demo_paths
     with sqlite3.connect(zen / "places.sqlite") as db:

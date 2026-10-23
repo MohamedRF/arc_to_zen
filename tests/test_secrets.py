@@ -7,13 +7,13 @@ import pytest
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from arc2zen_bridge.arc import extract
-from arc2zen_bridge.cookies import import_cookies
-from arc2zen_bridge.io import read_session
-from arc2zen_bridge.models import BridgeError
-from arc2zen_bridge.secrets import ArcKey, export_passwords
-from arc2zen_bridge.standard import CHROME_EPOCH
-from arc2zen_bridge.zen import import_sidebar
+from arc_to_zen.arc import extract
+from arc_to_zen.cookies import import_cookies
+from arc_to_zen.io import read_session
+from arc_to_zen.models import BridgeError
+from arc_to_zen.secrets import ArcKey, export_passwords
+from arc_to_zen.standard import CHROME_EPOCH
+from arc_to_zen.zen import import_sidebar
 
 
 def encrypted(key, raw):

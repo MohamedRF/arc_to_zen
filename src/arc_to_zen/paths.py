@@ -9,7 +9,10 @@ from .models import BridgeError
 
 def defaults() -> tuple[Path, Path, Path]:
     support = Path.home() / "Library" / "Application Support"
-    return support / "Arc", support / "zen", support / "Arc2Zen Bridge"
+    # Reuse existing run folders so upgrades keep previous backups discoverable.
+    legacy = support / "Arc2Zen Bridge"
+    runtime = legacy if legacy.exists() else support / "arc_to_zen"
+    return support / "Arc", support / "zen", runtime
 
 
 def discover_profiles(root: Path) -> list[tuple[str, Path]]:
@@ -61,7 +64,7 @@ def ensure_closed() -> None:
     running = result.stdout.splitlines()
     if any("/Arc.app/" in p or "/Zen.app/" in p for p in running):
         raise BridgeError(
-            "Quit Arc and Zen completely before migration or recovery. Bridge will not force-close them."
+            "Quit Arc and Zen completely before migration or recovery. arc_to_zen will not force-close them."
         )
 
 

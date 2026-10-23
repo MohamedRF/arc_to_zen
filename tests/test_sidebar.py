@@ -2,10 +2,10 @@ from collections import Counter
 
 import pytest
 
-from arc2zen_bridge.arc import extract
-from arc2zen_bridge.io import read_json, read_session, write_json, write_session
-from arc2zen_bridge.models import BridgeError
-from arc2zen_bridge.zen import import_sidebar, stable_id, verify_sidebar
+from arc_to_zen.arc import extract
+from arc_to_zen.io import read_json, read_session, write_json, write_session
+from arc_to_zen.models import BridgeError
+from arc_to_zen.zen import import_sidebar, stable_id, verify_sidebar
 
 
 def test_empty_spaces_essentials_only_shared_profiles_and_unused_profile(demo_paths):

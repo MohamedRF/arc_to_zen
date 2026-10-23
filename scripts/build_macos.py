@@ -11,7 +11,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from arc2zen_bridge import __version__
+from arc_to_zen import __version__
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -24,7 +24,7 @@ def icon(build: Path) -> Path:
 
     app = QGuiApplication.instance() or QGuiApplication([])
     renderer = QSvgRenderer(str(ROOT / "assets/icon.svg"))
-    iconset = build / "Bridge.iconset"
+    iconset = build / "arc_to_zen.iconset"
     iconset.mkdir(exist_ok=True)
     for size in (16, 32, 128, 256, 512):
         for scale in (1, 2):
@@ -35,7 +35,7 @@ def icon(build: Path) -> Path:
             renderer.render(painter, QRectF(0, 0, pixels, pixels))
             painter.end()
             image.save(str(iconset / f"icon_{size}x{size}{'@2x' if scale == 2 else ''}.png"))
-    output = build / "Bridge.icns"
+    output = build / "arc_to_zen.icns"
     subprocess.run(["iconutil", "-c", "icns", str(iconset), "-o", str(output)], check=True)
     del app
     return output
@@ -56,9 +56,9 @@ def main():
         "--windowed",
         "--onedir",
         "--name",
-        "Arc2Zen Bridge",
+        "arc_to_zen",
         "--osx-bundle-identifier",
-        "io.github.arc2zenbridge.app",
+        "io.github.mohamedrf.arc-to-zen",
         "--icon",
         str(app_icon),
         "--paths",
@@ -69,6 +69,8 @@ def main():
         str(build / "pyinstaller"),
         "--specpath",
         str(build),
+        "--collect-data",
+        "arc_to_zen",
         "--add-data",
         str(ROOT / "LICENSE") + ":.",
         "--add-data",
@@ -78,7 +80,7 @@ def main():
         args.extend(["--copy-metadata", package])
     args.append(str(ROOT / "scripts/launch_app.py"))
     subprocess.run(args, check=True, cwd=ROOT)
-    application = ROOT / "dist/Arc2Zen Bridge.app"
+    application = ROOT / "dist/arc_to_zen.app"
     plist_path = application / "Contents/Info.plist"
     with plist_path.open("rb") as stream:
         plist = plistlib.load(stream)
@@ -93,7 +95,7 @@ def main():
     subprocess.run(["codesign", "--force", "--sign", "-", "--timestamp=none", str(application)], check=True)
     subprocess.run(["codesign", "--verify", "--deep", "--strict", str(application)], check=True)
     arch = "arm64" if platform.machine() == "arm64" else "x64"
-    stem = f"Arc2Zen-Bridge-{__version__}-macos-{arch}"
+    stem = f"arc_to_zen-{__version__}-macos-{arch}"
     archive = ROOT / "dist" / (stem + ".zip")
     subprocess.run(
         ["ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", str(application), str(archive)], check=True
@@ -110,7 +112,7 @@ def main():
             "hdiutil",
             "create",
             "-volname",
-            "Arc2Zen Bridge",
+            "arc_to_zen",
             "-srcfolder",
             str(dmg_stage),
             "-ov",

@@ -25,6 +25,18 @@ jobs:
         with:
           python-version: '3.13'
       - run: python -m pip install -e '.[dev]'
+      - name: Validate release version
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python - <<'PYTHON'
+          import os
+          from arc_to_zen import __version__
+          assert os.environ["RELEASE_TAG"] == "v" + __version__, "Release tag and package version must match"
+          PYTHON
+      - run: ruff check .
+      - run: ruff format --check .
       - run: pytest -q
         env:
           QT_QPA_PLATFORM: offscreen
@@ -46,6 +58,7 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
         with:
           pattern: macos-*
@@ -55,10 +68,8 @@ jobs:
         with:
           files: release-assets/*
           fail_on_unmatched_files: true
-          prerelease: true
+          name: arc_to_zen ${{ github.ref_name }}
+          prerelease: false
+          make_latest: true
           generate_release_notes: true
-          body: |
-            Developer preview. Full local backups and synthetic regression tests are included.
-            Pick arm64 for Apple Silicon or x64 for Intel. Builds are ad-hoc signed, not Apple-notarized.
-            Password preparation is a separate explicit CSV step requiring Zen's native importer.
-            Read the compatibility and recovery guides before using important browser data.
+          body_path: docs/releases/${{ github.ref_name }}.md

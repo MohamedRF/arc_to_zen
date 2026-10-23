@@ -13,7 +13,7 @@ from .paths import defaults
 
 def main(argv: list[str] | None = None) -> int:
     default_arc, _, runtime = defaults()
-    parser = argparse.ArgumentParser(description="Arc2Zen Bridge — local, verified migration")
+    parser = argparse.ArgumentParser(description="arc_to_zen — local, verified migration")
     sub = parser.add_subparsers(dest="command", required=True)
     scan = sub.add_parser("scan", help="Read-only, count-only source scan; never prints URLs or login values")
     scan.add_argument("--arc", type=Path, default=default_arc)

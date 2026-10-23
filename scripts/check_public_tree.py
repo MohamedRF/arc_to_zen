@@ -1,4 +1,4 @@
-"""Fail closed on tracked browser exports, personal paths, or credential tokens."""
+"""Fail closed on source-tree browser exports, personal paths, or credential tokens."""
 
 from __future__ import annotations
 
@@ -21,7 +21,14 @@ SENSITIVE = [
 
 
 def main() -> int:
-    paths = subprocess.check_output(["git", "ls-files", "-z"], cwd=ROOT).decode().split("\0")
+    paths = (
+        subprocess.check_output(
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"], cwd=ROOT
+        )
+        .decode()
+        .split("\0")
+    )
+    paths = sorted({name for name in paths if name and (ROOT / name).is_file()})
     failed = []
     for name in filter(None, paths):
         path = ROOT / name
@@ -44,7 +51,7 @@ def main() -> int:
         print("\n".join(failed))
         return 1
     print(
-        f"Privacy check passed for {len([p for p in paths if p])} tracked files. No browser exports or credential patterns detected."
+        f"Privacy check passed for {len([p for p in paths if p])} source files. No browser exports or credential patterns detected."
     )
     return 0
 

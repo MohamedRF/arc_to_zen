@@ -1,7 +1,7 @@
 import pytest
 
-from arc2zen_bridge.io import atomic_bytes, read_session, write_session
-from arc2zen_bridge.models import BridgeError
+from arc_to_zen.io import atomic_bytes, read_session, write_session
+from arc_to_zen.models import BridgeError
 
 
 def test_session_round_trip_and_bad_header(tmp_path):

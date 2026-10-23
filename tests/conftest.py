@@ -2,14 +2,14 @@ from pathlib import Path
 
 import pytest
 
-from arc2zen_bridge.demo import create
+from arc_to_zen.demo import create
 
 
 @pytest.fixture
 def browsers(tmp_path, monkeypatch):
     arc, zen = create(tmp_path / "fictional")
     # Tests operate only on generated fixtures, even when real browsers are open.
-    monkeypatch.setattr("arc2zen_bridge.engine.ensure_closed", lambda: None)
+    monkeypatch.setattr("arc_to_zen.engine.ensure_closed", lambda: None)
     return arc, zen, tmp_path / "runtime"
 
 
