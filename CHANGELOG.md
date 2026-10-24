@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Skip Arc/Chromium runtime symlinks during verified backups so normal browser folders can be migrated after exit. Other symlinks remain rejected.
+
 ## [0.2.0](https://github.com/MohamedRF/arc_to_zen/releases/tag/v0.2.0)
 
 - Rename the project, package, application, and commands to `arc_to_zen`, retaining CLI aliases and existing migration records.

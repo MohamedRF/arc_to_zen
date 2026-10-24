@@ -20,7 +20,19 @@ from .secrets import ArcKey, export_passwords
 from .standard import import_forms, import_places
 from .zen import import_sidebar, validate_template, verify_sidebar
 
-IGNORED_LOCKS = {".parentlock", "parent.lock", "lock", ".DS_Store"}
+# Browser runtime markers can be dangling symlinks (including Chromium socket,
+# cookie, lock, and version markers). Never follow or transplant them. Keep this
+# exclusion identical for inventory and copying so verified backups agree.
+IGNORED_LOCKS = {
+    ".parentlock",
+    "parent.lock",
+    "lock",
+    ".DS_Store",
+    "SingletonSocket",
+    "SingletonCookie",
+    "SingletonLock",
+    "RunningChromeVersion",
+}
 Progress = Callable[[str], None]
 DEFAULT_OPTIONS = Options()
 

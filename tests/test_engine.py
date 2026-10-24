@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from arc_to_zen.engine import inventory, migrate, restore
+from arc_to_zen.engine import copy_verified, inventory, migrate, restore
 from arc_to_zen.io import read_json
 from arc_to_zen.models import BridgeError, Options
 from arc_to_zen.paths import safe_runtime_location
@@ -97,6 +97,43 @@ def test_external_symlink_is_rejected_without_copying(browsers, tmp_path):
     with pytest.raises(BridgeError, match="symlinks"):
         migrate(arc, zen, runtime)
     assert not runtime.exists()
+
+
+@pytest.mark.parametrize(
+    "name", ["SingletonSocket", "SingletonCookie", "SingletonLock", "RunningChromeVersion"]
+)
+def test_runtime_symlinks_are_excluded_from_verified_backups(tmp_path, name):
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "data").write_bytes(b"browser data")
+    # Missing targets reproduce the markers left behind after browser exit.
+    (source / name).symlink_to(tmp_path / "missing")
+    destination = tmp_path / "backup"
+    expected = copy_verified(source, destination)
+    assert set(expected) == {"data"}
+    assert inventory(destination) == expected
+    assert not (destination / name).is_symlink()
+    assert (source / name).is_symlink()
+
+
+def test_runtime_symlinks_do_not_block_migration_or_restore(browsers, tmp_path):
+    arc, zen, runtime = browsers
+    user_data = arc / "User Data"
+    for name in ("SingletonSocket", "SingletonCookie", "SingletonLock", "RunningChromeVersion"):
+        (user_data / name).symlink_to(tmp_path / "missing")
+    # A directory target must also be skipped without following it.
+    (user_data / "Default/SingletonSocket").symlink_to(tmp_path, target_is_directory=True)
+    (zen / ".parentlock").symlink_to(tmp_path / "missing")
+    arc_before, zen_before = inventory(arc), inventory(zen)
+    result = migrate(arc, zen, runtime, Options(replace=True))
+    assert inventory(result.run / "arc-source") == arc_before
+    assert inventory(result.run / "zen-before") == zen_before
+    assert not list((result.run / "arc-source").rglob("Singleton*"))
+    assert result.report["verification"]["verified_tabs"] == 7
+    assert restore(result.run) == zen
+    assert inventory(zen) == zen_before
+    assert inventory(arc) == arc_before
+    assert (user_data / "SingletonSocket").is_symlink()
 
 
 def test_browsers_running_blocks_before_backups(browsers, monkeypatch):

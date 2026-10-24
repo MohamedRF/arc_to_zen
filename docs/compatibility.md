@@ -15,6 +15,12 @@ profile or future browser version is not guaranteed.
   not terminate processes or discard an active browser session.
 - Enough free space for full Arc and Zen backups, staging, and the result.
 
+Browser runtime markers (`SingletonSocket`, `SingletonCookie`, `SingletonLock`,
+`RunningChromeVersion`, `.parentlock`, `parent.lock`, and `lock`) and `.DS_Store`
+are excluded from backups and file manifests. These markers may be dangling
+symlinks after a browser exits; they are neither followed nor copied. Other
+browser-folder symlinks still block migration.
+
 Arc's alternating key/value lists, variable pinned/unpinned marker order, empty
 spaces, Essentials-only spaces, and unused profile Essentials are handled.
 Two spaces with the same name retain different IDs. Spaces sharing one Arc profile

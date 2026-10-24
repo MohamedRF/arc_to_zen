@@ -21,8 +21,9 @@ metadata contains local filesystem paths because restoration needs them. Do not
 share an entire run folder when filing an issue.
 
 The app refuses to put runtime browser data under a Git repository or inside
-either input browser folder. It rejects browser-folder symlinks and unsafe profile
-names. Source databases are never opened for writing.
+either input browser folder. It skips known browser runtime markers without
+following their symlinks, and rejects other browser-folder symlinks and unsafe
+profile names. Source databases are never opened for writing.
 
 ## Authentication
 
