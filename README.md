@@ -29,7 +29,7 @@ backups, stages its changes, and verifies the result before committing the
 destination profile. Arc data is always read-only, and a separate Zen profile
 is the default.
 
-**Current release: v0.2.0.** Browser formats can change. Review the
+**Current release: v0.2.1.** Browser formats can change. Review the
 [compatibility guide](docs/compatibility.md) before migrating important data.
 This is an independent project, unaffiliated with Arc or Zen.
 
@@ -61,8 +61,8 @@ own Python runtime.
 
 | Mac | ZIP | DMG |
 | :--- | :--- | :--- |
-| Apple Silicon (M1 and later) | [Download ZIP](https://github.com/MohamedRF/arc_to_zen/releases/latest/download/arc_to_zen-0.2.0-macos-arm64.zip) | [Download DMG](https://github.com/MohamedRF/arc_to_zen/releases/latest/download/arc_to_zen-0.2.0-macos-arm64.dmg) |
-| Intel | [Download ZIP](https://github.com/MohamedRF/arc_to_zen/releases/latest/download/arc_to_zen-0.2.0-macos-x64.zip) | [Download DMG](https://github.com/MohamedRF/arc_to_zen/releases/latest/download/arc_to_zen-0.2.0-macos-x64.dmg) |
+| Apple Silicon (M1 and later) | [Download ZIP](https://github.com/MohamedRF/arc_to_zen/releases/latest/download/arc_to_zen-0.2.1-macos-arm64.zip) | [Download DMG](https://github.com/MohamedRF/arc_to_zen/releases/latest/download/arc_to_zen-0.2.1-macos-arm64.dmg) |
+| Intel | [Download ZIP](https://github.com/MohamedRF/arc_to_zen/releases/latest/download/arc_to_zen-0.2.1-macos-x64.zip) | [Download DMG](https://github.com/MohamedRF/arc_to_zen/releases/latest/download/arc_to_zen-0.2.1-macos-x64.dmg) |
 
 SHA-256 checksum files accompany each architecture on the release page.
 

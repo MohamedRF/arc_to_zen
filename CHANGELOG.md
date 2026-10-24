@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.2.1](https://github.com/MohamedRF/arc_to_zen/releases/tag/v0.2.1)
 
 - Skip Arc/Chromium runtime symlinks during verified backups so normal browser folders can be migrated after exit. Other symlinks remain rejected.
 
